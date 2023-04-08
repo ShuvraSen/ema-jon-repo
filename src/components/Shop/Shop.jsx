@@ -16,11 +16,35 @@ const Shop = () => {
 
     // cart useState er jonno
     useEffect(()=>{
-        const savedCart=getShoppingCart()
-        console.log(savedCart,'hhhj');
-    },[])
+        const storedCart=getShoppingCart()
+        let savedCart=[]
+        console.log(storedCart,'hhhj');
+        // step1:get id 
+        for(const id in storedCart){
+            // step2 :get the product by using id
+            const addedProduct=products.find(product=>product.id===id);
+            console.log(addedProduct,"added");
+            if(addedProduct){
+                // step3:get quantity of the product
+                const quantity=storedCart[id];
+                addedProduct.quantity=quantity;
+                // step4:add the added product
+                savedCart.push(addedProduct)
+            }
+            // step5s
+            setCart(savedCart)
+            
+           
+            // addedProduct.quantity=quantity;
+            // addedProduct.quantity= quantity---eivabe dile error ase.
+             //console.log(addedProduct);
+
+        }
 
 
+    },[products])
+
+ 
     const handlerAddToCart=(product)=>{
         // console.log(product);
         const newCart=[...cart,product]
