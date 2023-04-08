@@ -2,23 +2,33 @@ import React, { useEffect, useState } from 'react';
 import './Shop.css'
 import Product from '../Product/Product';
 import Cart from '../Cart/Cart';
+import { addToDb, getShoppingCart } from '../../utilities/fakedb';
 
 const Shop = () => {
     const [products,setProducts]=useState([]);
     const [cart,setCart]=useState([])
-
-    const handlerAddToCart=(product)=>{
-        // console.log(product);
-        const newCart=[...cart,product]
-        setCart(newCart)
-    }
-
-    console.log(products)
+    //console.log(products)
     useEffect(()=>{
         fetch('products.json')
         .then(res=>res.json())
         .then(data=>setProducts(data))
     },[])
+
+    // cart useState er jonno
+    useEffect(()=>{
+        const savedCart=getShoppingCart()
+        console.log(savedCart,'hhhj');
+    },[])
+
+
+    const handlerAddToCart=(product)=>{
+        // console.log(product);
+        const newCart=[...cart,product]
+        setCart(newCart)
+        addToDb(product.id)
+        //just product dile local storage e [object object dekhabe]
+        // addtodb fuction e id parameter diye ase. tai product.id dite hobe
+    }
 
     return (
         <div className='shop-container'>
